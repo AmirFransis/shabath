@@ -1,0 +1,66 @@
+﻿DB TABLES:
+	USE [ShabathDB]
+	GO
+
+	/****** Object:  Table [dbo].[Rounds] ******/
+	SET ANSI_NULLS ON
+	GO
+
+	SET QUOTED_IDENTIFIER ON
+	GO
+
+	CREATE TABLE [dbo].[Rounds](
+		[ID] [int] IDENTITY(1,1) NOT NULL,
+		[CurrentRoundNumber] [int] NOT NULL,
+		[EventDate] [date] NOT NULL,
+		[DayOfWeek] [nvarchar](10) NOT NULL
+	) ON [PRIMARY]
+
+	GO
+
+-----------
+	USE [ShabathDB]
+	GO
+
+	/****** Object:  Table [dbo].[Members] ******/
+	SET ANSI_NULLS ON
+	GO
+
+	SET QUOTED_IDENTIFIER ON
+	GO
+
+	SET ANSI_PADDING ON
+	GO
+
+	CREATE TABLE [dbo].[Members](
+		[ID] [int] IDENTITY(1,1) NOT NULL,
+		[Name] [varchar](30) NULL,
+		[Email] [varchar](50) NOT NULL,
+		[RoundNumber] [int] NOT NULL,
+		[IsChosenForThisWeek] [bit] NOT NULL DEFAULT ((0)),
+		[IsActive] [bit] NOT NULL DEFAULT ((1)),
+	PRIMARY KEY CLUSTERED 
+	(
+		[ID] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+
+	GO
+
+	SET ANSI_PADDING OFF
+	GO
+
+SCRIPT:
+...Projects\Shabath>dotnet ef dbcontext scaffold "Server=.\sqlexpress;Database=ShabathDB;Trusted_Connection=True;
+"Microsoft.EntityFrameworkCore.SqlServer --output-dir Models
+
+NOTE:
+dependency (inside project file)
+ <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.2" />
+  </ItemGroup>
